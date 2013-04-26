@@ -6,10 +6,10 @@ class Life
 
   attr_reader :rules, :width, :height, :grid, :seed
 
-  def initialize options
+  def initialize options = {}
     @rules = options[:rules] || DEFAULT_RULES
-    @width = opions[:width] || DEFAULT_WIDTH
-    @height = opions[:height] || DEFAULT_HEIGHT
+    @width = options[:width] || DEFAULT_WIDTH
+    @height = options[:height] || DEFAULT_HEIGHT
     @seed = options[:seed] || DEFAULT_SEED
 
     @grid = Array.new(width){ |i| Array.new(height) }
