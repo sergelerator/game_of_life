@@ -13,7 +13,6 @@ class Life
     @seed = options[:seed] || DEFAULT_SEED
 
     @grid = Array.new(width){ |i| Array.new(height) }
-    read_seed
   end
 
   def read_seed
