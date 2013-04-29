@@ -58,4 +58,24 @@ describe "Life" do
       @dummy.method(:read_seed).should be
     end
   end
+
+  describe "neighbours" do
+    before :each do
+      @dummy = subject.new
+      @dummy.grid.each_index do |x|
+        @dummy.grid[x].each_index{|y| @dummy.grid[x][y] = 0}
+      end
+    end
+
+    it "should be" do
+      subject.instance_method(:neighbours).should be
+      @dummy.method(:neighbours).should be
+    end
+
+    it "should return 1 when there's only one neighbour" do
+      @dummy.grid[0][0] = 1
+      @dummy.grid[0][0].should eq(1)
+      @dummy.neighbours(0,1).should eq(1)
+    end
+  end
 end
