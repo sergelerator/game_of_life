@@ -12,24 +12,20 @@ class Life
     @height = options[:height] || DEFAULT_HEIGHT
     @seed = options[:seed] || DEFAULT_SEED
 
-    @grid = Array.new(height){ |i| Array.new(width) }
+    @grid = Array.new(height){ |i| Array.new(width, 0) }
   end
 
   def read_seed
     lines = File.open(seed, "r").read.split("\n")
     lines.each_index do |i|
       cells = lines[i].split("")
-      cells.each_index{ |j| grid[i][j] && grid[i][j] = cells[j] }
+      cells.each_index{ |j| grid[i][j] and grid[i][j] = cells[j].to_i }
     end
   end
 
   def evolve
-    next_gen = grid.dup
-    grid.each_index do |i|
-      grid[i].each_index do |j|
-        next_gen[i][j] = rules[ grid[i][j] ][ neighbours(i, j) ]
-      end
-    end
+    y, x = (0...height), (0...width)
+    @grid = y.map{ |i| x.map{ |j| rules[ grid[i][j] ][ neighbours(i, j) ] } }
   end
 
   def neighbours i, j
@@ -38,6 +34,17 @@ class Life
   end
 
   def print
-    puts grid.map{ |row| row.join(" ")}.join("\n")
+    puts grid.map{ |row| row.join(" ")}.join("\n").gsub("0", " ")
+  end
+end
+
+if __FILE__ == $0
+  life = Life.new
+  life.read_seed
+  while 1
+    system("clear")
+    life.print
+    sleep(1)
+    life.evolve
   end
 end
