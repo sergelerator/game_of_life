@@ -12,7 +12,7 @@ class Life
     @height = options[:height] || DEFAULT_HEIGHT
     @seed = options[:seed] || DEFAULT_SEED
 
-    @grid = Array.new(width){ |i| Array.new(height) }
+    @grid = Array.new(height){ |i| Array.new(width) }
   end
 
   def read_seed
@@ -33,7 +33,11 @@ class Life
   end
 
   def neighbours i, j
-    x, y = (i-1..i+1), (j-1..j+1)
-    x.map{ |w| y.map{ |h| grid[i][j] }.reduce(0, &:+) }.reduce(0, &:+) - grid[i, j]
+    region = (i-1..i+1).to_a.product (j-1..j+1).to_a
+    region.map{ |h, w| grid[h % height][w % width] }.reduce(0, &:+) - grid[i][j]
+  end
+
+  def print
+    puts grid.map{ |row| row.join(" ")}.join("\n")
   end
 end

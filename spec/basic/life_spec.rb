@@ -73,9 +73,50 @@ describe "Life" do
     end
 
     it "should return 1 when there's only one neighbour" do
-      @dummy.grid[0][0] = 1
-      @dummy.grid[0][0].should eq(1)
-      @dummy.neighbours(0,1).should eq(1)
+      @dummy.grid[0][1] = 1
+      @dummy.grid[0][1].should eq(1)
+      @dummy.neighbours(1,0).should eq(1)
+    end
+
+    context "neighbour on each corner" do
+      before :each do
+        @dummy.grid[0][0] = 1
+        @dummy.grid[0][@dummy.width-1] = 1
+        @dummy.grid[@dummy.height-1][0] = 1
+        @dummy.grid[@dummy.height-1][@dummy.width-1] = 1
+      end
+
+      it "should have 3 neighbours at bottom right corner" do
+        @dummy.neighbours(@dummy.height-1, @dummy.width-1).should eq(3)
+      end
+
+      it "should have 1 neighbour at 1,1" do
+        @dummy.neighbours(1, 1).should eq(1)
+      end
+
+      it "should have 2 neighbour at 0,1" do
+        @dummy.neighbours(0, 1).should eq(2)
+      end
+    end
+
+    context "everything lives!" do
+      before :each do
+        @dummy.grid.each_index do |x|
+          @dummy.grid[x].each_index{ |y| @dummy.grid[x][y] = 1 }
+        end
+      end
+
+      it "should have 8 neighbours at 0,0" do
+        @dummy.neighbours(0,0).should eq(8)
+      end
+
+      it "should have 8 neighbours at 2,2" do
+        @dummy.neighbours(2,2).should eq(8)
+      end
+
+      it "should have 8 neighbours at 10,5" do
+        @dummy.neighbours(10,5).should eq(8)
+      end
     end
   end
 end
