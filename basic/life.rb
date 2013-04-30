@@ -34,6 +34,6 @@ class Life
 
   def neighbours i, j
     x, y = (i-1..i+1), (j-1..j+1)
-    x.map{ |w| y.map{ |h| grid[i][j] }.reduce(0, &:+) }.reduce(0, &:+)
+    x.map{ |w| y.map{ |h| grid[i][j] }.reduce(0, &:+) }.reduce(0, &:+) - grid[i, j]
   end
 end
