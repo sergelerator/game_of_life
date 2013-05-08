@@ -119,4 +119,50 @@ describe "Life" do
       end
     end
   end
+
+  describe "evolve" do
+    before :each do
+      @dummy = subject.new width: 10, height: 10
+    end
+
+    it "should be" do
+      @dummy.method(:evolve).should be
+    end
+
+    context "f-pentomino seed" do
+      before :each do
+        @dummy.grid[4][5] = 1
+        @dummy.grid[4][6] = 1
+        @dummy.grid[5][5] = 1
+        @dummy.grid[5][4] = 1
+        @dummy.grid[6][5] = 1
+      end
+
+      it "should properly evolve to the next f-pentomino generation" do
+        @dummy.evolve
+        next_gen = [
+          [4,4],[4,5],[4,6],
+          [5,4],
+          [6,4],[6,5]
+        ]
+        matches = next_gen.map{ |h, w| @dummy.grid[h][w] }.reduce(0, &:+)
+        matches.should eq(next_gen.length)
+      end
+    end
+
+    context "blinker seed" do
+      before :each do
+        @dummy.grid[3][4] = 1
+        @dummy.grid[4][4] = 1
+        @dummy.grid[5][4] = 1
+      end
+
+      it "should blink" do
+        @dummy.evolve
+        next_gen = [[4,3],[4,4],[4,5]]
+        matches = next_gen.map{ |h, w| @dummy.grid[h][w] }.reduce(0, &:+)
+        matches.should eq(next_gen.length)
+      end
+    end
+  end
 end

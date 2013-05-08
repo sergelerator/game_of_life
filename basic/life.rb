@@ -25,7 +25,9 @@ class Life
 
   def evolve
     y, x = (0...height), (0...width)
-    @grid = y.map{ |i| x.map{ |j| rules[ grid[i][j] ][ neighbours(i, j) ] } }
+    @grid = y.map do |i|
+      x.map{ |j| rules[ grid[i][j] ][ neighbours(i, j) ] }
+    end
   end
 
   def neighbours i, j
